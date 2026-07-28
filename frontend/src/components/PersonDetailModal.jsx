@@ -61,6 +61,26 @@ export default function PersonDetailModal({ person, onClose }) {
           </div>
         ))}
       </div>
+
+      {person.z_scores && (
+        <div className="audit-block">
+          <h4 className="audit-title">Cómo se decidió el perfil</h4>
+          <dl className="audit-zscores">
+            {TYPE_ORDER.map((t) => (
+              <div className="audit-zscore" key={t}>
+                <dt style={{ color: TYPE_META[t].color }}>{TYPE_META[t].short}</dt>
+                <dd className="mono">{person.z_scores[t].toFixed(2)}</dd>
+              </div>
+            ))}
+          </dl>
+          {person.tied_raw_types.length > 1 && (
+            <p className="audit-note">
+              Empate en puntaje crudo entre {person.tied_raw_types.join(", ")}, resuelto por z-score.
+            </p>
+          )}
+          <p className="audit-note">{person.decision_method}</p>
+        </div>
+      )}
     </Modal>
   );
 }
